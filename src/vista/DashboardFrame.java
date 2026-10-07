@@ -243,12 +243,14 @@ public class DashboardFrame extends JFrame
         int ultimoId = 0;
         if (inventario == null || inventario.isEmpty()) return ultimoId;
 
-        for (int i = 1; i < inventario.size(); i++) {
+        for (int i = 1; i < inventario.size(); i++) 
+        {
             String[] fila = inventario.get(i);
             if (fila == null || fila.length == 0) continue;
             try {
                 int idActual = Integer.parseInt(fila[0].trim());
-                if (idActual > ultimoId) {
+                if (idActual > ultimoId) 
+                {
                     ultimoId = idActual;
                 }
             } 
@@ -385,8 +387,7 @@ public class DashboardFrame extends JFrame
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirmacion != JOptionPane.YES_OPTION) return;
 
-        try 
-        {
+        try{
             List<String[]> inventario = Manejo_Archivos.leerCSV("data/Inventarios.csv");
             if (inventario.isEmpty()) throw new IOException("El inventario no se pudo leer.");
             List<String> registrosActualizados = new ArrayList<>();
@@ -419,9 +420,7 @@ public class DashboardFrame extends JFrame
             {
                 registrosActualizados.add(String.join(",", registroActualizado));
                 actualizado = true;
-            } 
-            else 
-            {
+            } else {
                 registrosActualizados.add(String.join(",", registro));
             }
         }

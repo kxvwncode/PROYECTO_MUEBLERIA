@@ -232,7 +232,8 @@ public class PuntoVentaFrame extends JFrame
         JButton btnDescuento = new JButton("Aplicar Descuento 10%");
         btnDescuento.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
         btnDescuento.addActionListener(e -> {
-            if (carrito.isEmpty()) {
+            if (carrito.isEmpty()) 
+            {
                 JOptionPane.showMessageDialog(this, "No hay productos en el carrito.", "Carrito vacío", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -247,7 +248,8 @@ public class PuntoVentaFrame extends JFrame
         JPanel accionesCarrito = new JPanel();
         accionesCarrito.setOpaque(false);
         accionesCarrito.setLayout(new BoxLayout(accionesCarrito, BoxLayout.Y_AXIS));
-        for (JComponent component : new JComponent[] {lbTotal, btnVaciar, btnDescuento, lbNotaDesc}) {
+        for (JComponent component : new JComponent[] {lbTotal, btnVaciar, btnDescuento, lbNotaDesc}) 
+        {
             component.setAlignmentX(Component.LEFT_ALIGNMENT);
             accionesCarrito.add(component);
             accionesCarrito.add(Box.createVerticalStrut(8));
@@ -269,7 +271,8 @@ public class PuntoVentaFrame extends JFrame
         JRadioButton rbEfectivo = new JRadioButton("Efectivo", true);
         JRadioButton rbTarjeta = new JRadioButton("Tarjeta");
         JRadioButton rbApartado = new JRadioButton("Apartado");
-        for (JRadioButton radio : new JRadioButton[] {rbEfectivo, rbTarjeta, rbApartado}) {
+        for (JRadioButton radio : new JRadioButton[]{rbEfectivo, rbTarjeta, rbApartado}) 
+        {
             radio.setBackground(TemaMuebleria.BLANCO);
         }
         ButtonGroup grupoPago = new ButtonGroup();
@@ -527,8 +530,7 @@ public class PuntoVentaFrame extends JFrame
             if (apartado == null || apartado.length == 0) continue;
             String id = apartado[0].trim().toUpperCase();
             if (!id.startsWith("AP-")) continue;
-            try 
-            {
+            try{
                 ultimoId = Math.max(ultimoId, Integer.parseInt(id.substring(3)));
             } 
             catch (NumberFormatException e) 
@@ -543,11 +545,13 @@ public class PuntoVentaFrame extends JFrame
         cargarCatalogoProductos(contenedor, "", "Todas");
     }
 
-    private void cargarCatalogoProductos(JPanel contenedor, String textoBusqueda) {
+    private void cargarCatalogoProductos(JPanel contenedor, String textoBusqueda) 
+    {
         cargarCatalogoProductos(contenedor, textoBusqueda, "Todas");
     }
 
-    private void cargarCatalogoProductos(JPanel contenedor, String textoBusqueda, String categoriaSeleccionada) {
+    private void cargarCatalogoProductos(JPanel contenedor, String textoBusqueda, String categoriaSeleccionada) 
+    {
         if (contenedor == null) return;
         contenedor.removeAll();
 
@@ -595,7 +599,8 @@ public class PuntoVentaFrame extends JFrame
         contenedor.repaint();
     }
 
-    private String categoriaDelProducto(String nombreProducto) {
+    private String categoriaDelProducto(String nombreProducto) 
+    {
         String nombre = nombreProducto.toLowerCase();
         if (nombre.contains("sofa") || nombre.contains("sala") || nombre.contains("mueble")) return "Salas";
         if (nombre.contains("recamara") || nombre.contains("cama") || nombre.contains("armario")) return "Recámaras";
@@ -603,7 +608,8 @@ public class PuntoVentaFrame extends JFrame
         return "General";
     }
 
-    private void agregarAlCarrito(String[] producto) {
+    private void agregarAlCarrito(String[] producto) 
+    {
         if (producto == null || producto.length < 5) return;
         String nombre = producto[1].trim();
         int cantidadActual = carrito.getOrDefault(nombre, 0);
@@ -611,18 +617,22 @@ public class PuntoVentaFrame extends JFrame
         actualizarCarrito();
     }
 
-    private void actualizarCarrito() {
+    private void actualizarCarrito() 
+    {
         if (modeloCarrito == null) return;
         modeloCarrito.setRowCount(0);
 
-        for (Map.Entry<String, Integer> entry : carrito.entrySet()) {
+        for (Map.Entry<String, Integer> entry : carrito.entrySet()) 
+        {
             String nombre = entry.getKey();
             int cantidad = entry.getValue();
             List<String[]> inventario = Manejo_Archivos.leerCSV("data/Inventarios.csv");
             double precioUnitario = 0.0;
-            for (int i = 1; i < inventario.size(); i++) {
+            for (int i = 1; i < inventario.size(); i++) 
+            {
                 String[] producto = inventario.get(i);
-                if (producto != null && producto.length >= 5 && producto[1].trim().equalsIgnoreCase(nombre)) {
+                if (producto != null && producto.length >= 5 && producto[1].trim().equalsIgnoreCase(nombre)) 
+                {
                     precioUnitario = Double.parseDouble(producto[3].trim());
                     break;
                 }
@@ -634,16 +644,20 @@ public class PuntoVentaFrame extends JFrame
         actualizarTotalCarrito();
     }
 
-    private double calcularTotalCarrito() {
+    private double calcularTotalCarrito() 
+    {
         double total = 0.0;
         List<String[]> inventario = Manejo_Archivos.leerCSV("data/Inventarios.csv");
 
-        for (Map.Entry<String, Integer> entry : carrito.entrySet()) {
+        for (Map.Entry<String, Integer> entry : carrito.entrySet()) 
+        {
             String nombre = entry.getKey();
             int cantidad = entry.getValue();
-            for (int i = 1; i < inventario.size(); i++) {
+            for (int i = 1; i < inventario.size(); i++) 
+            {
                 String[] producto = inventario.get(i);
-                if (producto != null && producto.length >= 5 && producto[1].trim().equalsIgnoreCase(nombre)) {
+                if (producto != null && producto.length >= 5 && producto[1].trim().equalsIgnoreCase(nombre)) 
+                {
                     total += Double.parseDouble(producto[3].trim()) * cantidad;
                     break;
                 }
@@ -652,19 +666,23 @@ public class PuntoVentaFrame extends JFrame
         return total;
     }
 
-    private void actualizarTotalCarrito() {
+    private void actualizarTotalCarrito() 
+    {
         if (lbTotal == null) return;
         lbTotal.setText("Total: $" + String.format("%.2f", calcularTotalCarrito()) + " MXN");
     }
 
-    private void procesarVenta(String nombreCliente, String numeroCliente, String metodoPago) {
-        if (carrito.isEmpty()) {
+    private void procesarVenta(String nombreCliente, String numeroCliente, String metodoPago) 
+    {
+        if (carrito.isEmpty()) 
+        {
             JOptionPane.showMessageDialog(this, "El carrito está vacío.", "Carrito vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         nombreCliente = nombreCliente.trim();
-        if (nombreCliente.isEmpty()) {
+        if (nombreCliente.isEmpty()) 
+        {
             JOptionPane.showMessageDialog(this, "Ingresa el nombre del cliente.", "Dato requerido", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -677,17 +695,21 @@ public class PuntoVentaFrame extends JFrame
         List<String[]> ventasPendientes = new ArrayList<>();
         List<String[]> apartadosPendientes = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : carrito.entrySet()) {
+        for (Map.Entry<String, Integer> entry : carrito.entrySet()) 
+        {
             String nombreProducto = entry.getKey();
             int cantidadVendida = entry.getValue();
             String[] productoEncontrado = null;
 
-            for (int i = 1; i < inventario.size(); i++) {
+            for (int i = 1; i < inventario.size(); i++) 
+            {
                 String[] producto = inventario.get(i);
                 if (producto == null || producto.length < 5) continue;
-                if (producto[1].trim().equalsIgnoreCase(nombreProducto)) {
+                if (producto[1].trim().equalsIgnoreCase(nombreProducto)) 
+                {
                     int stockActual = Integer.parseInt(producto[4].trim());
-                    if (stockActual < cantidadVendida) {
+                    if (stockActual < cantidadVendida) 
+                    {
                         JOptionPane.showMessageDialog(this, "No hay suficiente stock para: " + nombreProducto, "Stock insuficiente", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
@@ -696,20 +718,24 @@ public class PuntoVentaFrame extends JFrame
                 }
             }
 
-            if (productoEncontrado == null) {
+            if (productoEncontrado == null) 
+            {
                 JOptionPane.showMessageDialog(this, "No se encontró el producto: " + nombreProducto, "Producto no encontrado", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             double subtotal = Double.parseDouble(productoEncontrado[3].trim()) * cantidadVendida;
-            ventasPendientes.add(new String[] {
+            ventasPendientes.add(new String[] 
+            {
                 String.valueOf(nuevoId), nombreProducto, String.valueOf(cantidadVendida),
                 String.valueOf(subtotal), fecha, nombreCliente.trim(), metodoPago, numeroCliente.trim()
             });
-            if ("Apartado".equals(metodoPago)) {
+            if ("Apartado".equals(metodoPago)) 
+            {
                 double abonoInicial = Math.round(subtotal * 0.25 * 100.0) / 100.0;
                 double saldoPendiente = Math.round((subtotal - abonoInicial) * 100.0) / 100.0;
-                apartadosPendientes.add(new String[] {
+                apartadosPendientes.add(new String[] 
+                {
                     "AP-" + siguienteIdApartado++,
                     String.valueOf(nuevoId),
                     nombreCliente.trim(),
@@ -724,12 +750,14 @@ public class PuntoVentaFrame extends JFrame
         }
 
         List<String> inventarioActualizado = new ArrayList<>();
-        if (!inventario.isEmpty()) {
+        if (!inventario.isEmpty()) 
+        {
             inventarioActualizado.add(String.join(",", inventario.get(0)));
         } else {
             inventarioActualizado.add("ID,Nombre,Precio_Costo,Precio_Venta,Stock");
         }
-        for (int i = 1; i < inventario.size(); i++) {
+        for (int i = 1; i < inventario.size(); i++) 
+        {
             String[] producto = inventario.get(i);
             if (producto == null || producto.length < 5) continue;
             int cantidadVendida = carrito.getOrDefault(producto[1].trim(), 0);
@@ -742,11 +770,14 @@ public class PuntoVentaFrame extends JFrame
             guardarRegistrosCsv("data/Ventas.csv",
                     "ID_Venta,Producto,Cantidad,Total,Fecha,Cliente,MetodoPago,NumeroCliente",
                     ventasPendientes);
-            if (!apartadosPendientes.isEmpty()) {
+            if (!apartadosPendientes.isEmpty()) 
+            {
                 guardarApartadosCsv(apartadosPendientes);
             }
             Manejo_Archivos.sobrescribirCSV("data/Inventarios.csv", inventarioActualizado);
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             JOptionPane.showMessageDialog(this,
                     "No se pudo guardar la venta y sus registros: " + e.getMessage(),
                     "Error al guardar", JOptionPane.ERROR_MESSAGE);
@@ -761,34 +792,42 @@ public class PuntoVentaFrame extends JFrame
         PuntoVentaFrame.refrescarDashboardAbierto();
     }
 
-    private void guardarRegistrosCsv(String ruta, String cabecera, List<String[]> registros) throws IOException {
+    private void guardarRegistrosCsv(String ruta, String cabecera, List<String[]> registros) throws IOException 
+    {
         File archivo = new File(ruta);
         File directorio = archivo.getParentFile();
-        if (directorio != null && !directorio.exists() && !directorio.mkdirs()) {
+        if (directorio != null && !directorio.exists() && !directorio.mkdirs()) 
+        {
             throw new IOException("No se pudo crear el directorio " + directorio.getPath());
         }
 
         boolean escribirCabecera = !archivo.exists() || archivo.length() == 0;
-        try (FileWriter fileWriter = new FileWriter(archivo, true); PrintWriter writer = new PrintWriter(fileWriter)) {
+        try (FileWriter fileWriter = new FileWriter(archivo, true); PrintWriter writer = new PrintWriter(fileWriter)) 
+        {
             if (escribirCabecera) writer.println(cabecera);
-            for (String[] registro : registros) {
+            for (String[] registro : registros) 
+            {
                 writer.println(String.join(",", registro));
             }
-            if (writer.checkError()) {
+            if (writer.checkError()) 
+            {
                 throw new IOException("Error escribiendo el archivo " + ruta);
             }
         }
     }
 
-    private void guardarApartadosCsv(List<String[]> nuevosApartados) throws IOException {
+    private void guardarApartadosCsv(List<String[]> nuevosApartados) throws IOException 
+    {
         Path archivo = Paths.get("data/Apartados.csv");
         Path directorio = archivo.getParent();
         if (directorio != null) Files.createDirectories(directorio);
 
         List<String[]> apartadosActuales = Manejo_Archivos.leerDatosCSV("data/Apartados.csv", "ID");
         List<String[]> apartadosActualizados = new ArrayList<>();
-        for (String[] apartado : apartadosActuales) {
-            if (apartado != null && apartado.length >= 6) {
+        for (String[] apartado : apartadosActuales) 
+        {
+            if (apartado != null && apartado.length >= 6) 
+            {
                 apartadosActualizados.add(normalizarApartado(apartado));
             }
         }
@@ -796,19 +835,24 @@ public class PuntoVentaFrame extends JFrame
 
         Path temporal = Files.createTempFile(directorio, "Apartados-", ".tmp");
         try {
-            try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(temporal))) {
+            try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(temporal))) 
+            {
                 writer.println("ID,ID_Venta,Cliente,NumeroCliente,Producto,Total,Abono,Saldo,Fecha");
-                for (String[] apartado : apartadosActualizados) {
+                for (String[] apartado : apartadosActualizados) 
+                {
                     writer.println(String.join(",", apartado));
                 }
-                if (writer.checkError()) {
+                if (writer.checkError()) 
+                {
                     throw new IOException("Error escribiendo el archivo de apartados.");
                 }
             }
 
             try {
                 Files.move(temporal, archivo, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-            } catch (AtomicMoveNotSupportedException e) {
+            } 
+            catch (AtomicMoveNotSupportedException e) 
+            {
                 Files.move(temporal, archivo, StandardCopyOption.REPLACE_EXISTING);
             }
         } finally {
@@ -816,42 +860,57 @@ public class PuntoVentaFrame extends JFrame
         }
     }
 
-    private void guardarRegistroCsv(String ruta, String cabecera, String[] fila) {
+    private void guardarRegistroCsv(String ruta, String cabecera, String[] fila) 
+    {
         File directorio = new File("data");
-        if (!directorio.exists()) {
+        if (!directorio.exists()) 
+        {
             directorio.mkdirs();
         }
 
         File archivo = new File(ruta);
-        if (!archivo.exists()) {
-            try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) {
+        if (!archivo.exists()) 
+        {
+            try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) 
+            {
                 pw.println(cabecera);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 System.out.println("Error al crear archivo: " + e.getMessage());
             }
         }
 
-        try (FileWriter fileWriter = new FileWriter(archivo, true); PrintWriter pw = new PrintWriter(fileWriter)) {
+        try (FileWriter fileWriter = new FileWriter(archivo, true); PrintWriter pw = new PrintWriter(fileWriter)) 
+        {
             StringBuilder linea = new StringBuilder();
-            for (int i = 0; i < fila.length; i++) {
+            for (int i = 0; i < fila.length; i++) 
+            {
                 if (i > 0) linea.append(",");
                 linea.append(fila[i]);
             }
             pw.println(linea.toString());
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println("Error al guardar registro: " + e.getMessage());
         }
     }
 
-    private int obtenerUltimoIdVenta() {
+    private int obtenerUltimoIdVenta() 
+    {
         List<String[]> ventas = Manejo_Archivos.leerDatosCSV("data/Ventas.csv", "ID_Venta");
         int ultimoId = 0;
-        for (String[] fila : ventas) {
-            if (fila != null && fila.length > 0) {
+        for (String[] fila : ventas) 
+        {
+            if (fila != null && fila.length > 0) 
+            {
                 try {
                     int id = Integer.parseInt(fila[0].trim());
                     if (id > ultimoId) ultimoId = id;
-                } catch (NumberFormatException e) {
+                } 
+                catch (NumberFormatException e) 
+                {
                 }
             }
         }
